@@ -34,3 +34,872 @@
         .bracket-controls button { width: auto; padding: 8px 15px; margin: 0; background: #22c55e; }
         .bracket-controls button:hover { background: #16a34a; }
         .bracket-controls h2 { margin: 0; color: #166534; font-size: 24px; }
+        .matchup { display: flex; justify-content: center; align-items: center; background: white; padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #bbf7d0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .matchup-team { font-weight: bold; font-size: 18px; width: 25%; text-align: center; }
+        .matchup-vs { width: 10%; text-align: center; color: #94a3b8; font-weight: bold; font-size: 14px; }
+        .court-label { display: block; text-align: center; font-size: 12px; color: #16a34a; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; }
+        .sitting-out { background: #fef2f2; border: 1px solid #fecaca; padding: 12px; border-radius: 8px; text-align: center; margin-top: 15px; color: #b91c1c; font-weight: bold; }
+        .league-label { font-size: 12px; color: #64748b; font-weight: normal; display: block; margin-top: 5px; }
+        
+        .score-box { display: flex; align-items: center; gap: 5px; }
+        .score-btn { background: #e2e8f0; color: #0f172a; border: none; padding: 5px 12px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 18px; margin: 0; width: auto; }
+        .score-btn:hover { background: #cbd5e1; }
+        .score-display { font-size: 24px; font-weight: bold; min-width: 35px; text-align: center; color: var(--text); }
+        
+        .projector-btn { position: fixed; top: 15px; right: 15px; width: auto; background: #0f172a; color: white; padding: 10px 15px; border-radius: 8px; z-index: 1000; box-shadow: 0 4px 6px rgba(0,0,0,0.3); font-size: 14px; }
+        .projector-btn:hover { background: #1e293b; }
+        #top-status-bar { position: fixed; top: 15px; left: 15px; width: auto; background: var(--primary); color: white; padding: 10px 15px; border-radius: 8px; z-index: 1000; box-shadow: 0 4px 6px rgba(0,0,0,0.3); font-size: 14px; font-weight: bold; }
+        
+        /* ADMIN SWAP STYLES */
+        .swap-btn { padding: 4px 10px; width: auto; margin-bottom: 0; font-size: 12px; background: #e2e8f0; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+        .swap-btn:hover { background: #cbd5e1; }
+        .swap-active { background: #fbbf24 !important; color: #000 !important; border-color: #f59e0b !important; font-weight: bold; box-shadow: 0 0 8px rgba(251, 191, 36, 0.5); }
+        
+        /* PROJECTOR MODE ADJUSTMENTS */
+        body.projector-active { max-width: 98%; padding: 70px 20px 20px 20px; overflow-x: hidden; }
+        body.projector-active #player-view > h1, body.projector-active #signin-card, body.projector-active .admin-link, body.projector-active #waiting-card .btn-outline, body.projector-active #waiting-card > h2, body.projector-active #waiting-card > p { display: none !important; }
+        body.projector-active .waiting-list-box { padding: 10px; margin-top: 0; border: none; background: transparent;}
+        body.projector-active .waiting-list-box h3 { font-size: 2rem; border-bottom: 3px solid #cbd5e1; padding-bottom: 10px; text-align: center; }
+        body.projector-active .waiting-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; max-height: none; overflow: visible; }
+        body.projector-active .waiting-item { font-size: 1.5rem; padding: 10px; margin: 0; border-width: 2px; }
+        body.projector-active .teams-container { display: flex; flex-wrap: wrap; justify-content: center; align-items: stretch; gap: 15px; margin-top: 20px; }
+        body.projector-active .team-box { flex: 1 1 20%; min-width: 220px; padding: 15px; border-width: 3px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 0; }
+        body.projector-active .team-box h3 { font-size: 1.6rem; border-bottom-width: 3px; padding-bottom: 8px; margin-top: 0; margin-bottom: 10px; }
+        body.projector-active .team-box li { font-size: 1.4rem; padding: 6px 0; border-bottom: 1px solid #f1f5f9; }
+        body.projector-active .badge { font-size: 1.1rem; padding: 4px 8px; }
+        
+        body.projector-active .bracket-controls h2 { font-size: 3rem; }
+        body.projector-active .bracket-controls button { font-size: 1.5rem; padding: 15px 25px; }
+        body.projector-active .matchup { padding: 25px; border-width: 3px; justify-content: space-evenly; }
+        body.projector-active .matchup-team { font-size: 2.2rem; width: 30%; }
+        body.projector-active .matchup-vs { font-size: 1.8rem; }
+        body.projector-active .court-label { font-size: 1.5rem; margin-bottom: 10px; }
+        body.projector-active .sitting-out { font-size: 2rem; padding: 20px; border-width: 3px; }
+        body.projector-active #top-status-bar { font-size: 20px; padding: 12px 20px; }
+        body.projector-active .league-label { font-size: 1.5rem; margin-top: 10px; }
+        
+        body.projector-active .hide-on-projector { display: none !important; }
+        body.projector-active .score-display { font-size: 4.5rem; margin: 0 15px; color: var(--primary); }
+
+        @media (max-width: 450px) {
+            #top-status-bar, .projector-btn { font-size: 12px; padding: 8px 10px; }
+            .score-btn { padding: 5px 8px; font-size: 14px; }
+            .matchup-team { font-size: 14px; width: 20%; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="top-status-bar" class="hidden">🏐 Teams Live (<span id="top-player-count">0</span> Players)</div>
+<button class="projector-btn" onclick="toggleProjector()">📺 Projector Mode</button>
+
+<div id="loading" class="hidden">Communicating with Server... 🏐</div>
+
+<div id="player-view">
+    <h1 style="text-align:center;">🏐 Join the Game</h1>
+    
+    <div class="card" id="signin-card">
+        <select id="playerDropdown" onchange="handlePlayerSelection()">
+            <option value="">-- Select Your Name --</option>
+            <option value="NEW_PLAYER">+ I am a new player</option>
+        </select>
+        <input type="text" id="playerName" placeholder="Type Your Name" class="hidden">
+        <select id="playerGrade">
+            <option value="K-5th">K-5th</option>
+            <option value="6-12th">6-12th</option>
+            <option value="Adult">Adult</option>
+        </select>
+        
+        <div id="queue-box" class="queue-container hidden">
+            <h4 style="margin: 0 0 10px 0; color: #0369a1;">Ready to Sign In:</h4>
+            <ul id="queue-list" class="queue-list"></ul>
+        </div>
+
+        <div style="display: flex; gap: 10px; margin-top: 10px;">
+            <button onclick="addToQueue()" class="btn-outline" style="flex: 1;">+ Add to Group</button>
+            <button onclick="submitQueue()" id="submit-btn" style="flex: 1;">Sign In</button>
+        </div>
+    </div>
+    
+    <div class="card hidden" id="waiting-card" style="text-align: center;">
+        <h2>You are signed in! 🎉</h2>
+        <p id="status-message">Waiting for the admin to generate teams...</p>
+        
+        <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+            <button onclick="resetSignIn()" class="btn-outline" style="padding: 8px; font-size: 14px;">+ Sign In Another Player</button>
+            <button onclick="fetchData()" style="padding: 8px; font-size: 14px;">Refresh / Check Teams</button>
+        </div>
+
+        <div class="waiting-list-box">
+            <h3>Currently Signed In (<span id="waiting-count">0</span>)</h3>
+            <ul id="waiting-roster" class="waiting-list"></ul>
+        </div>
+    </div>
+
+    <div id="player-teams-output" class="teams-container hidden"></div>
+    
+    <div id="bracket-output" class="card bracket-card hidden" style="margin-top: 20px;">
+        <div class="bracket-controls">
+            <button onclick="changeRound(-1)">◀ Prev</button>
+            <h2 id="round-title">Round 1</h2>
+            <button onclick="changeRound(1)">Next ▶</button>
+        </div>
+        <div id="bracket-matches"></div>
+    </div>
+
+    <div class="admin-link" onclick="showAdminLogin()">Admin Login</div>
+</div>
+
+<div id="admin-view" class="hidden">
+    <h1 style="text-align:center;">👑 Admin Dashboard</h1>
+    <div class="card">
+        <button class="btn-outline" onclick="exitAdmin()" style="margin-bottom:20px;">Exit Admin Mode</button>
+        <h2>Current Roster (<span id="admin-count">0</span>)</h2>
+        <ul id="admin-roster" style="list-style: none; padding:0; max-height: 250px; overflow-y: auto;"></ul>
+        
+        <h3 style="margin-top: 20px; font-size: 16px; color: #475569;">1. Generate Teams:</h3>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button onclick="generateAndSaveTeams('mixed')" style="flex: 1 1 45%; background-color: #0284c7;">Mix All Players (Free for All)</button>
+            <button onclick="generateAndSaveTeams('segregated')" style="flex: 1 1 45%; background-color: #4f46e5;">Age-Group Only (Leagues)</button>
+        </div>
+
+        <h3 style="margin-top: 20px; font-size: 16px; color: #475569;">2. Session Controls:</h3>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <button class="btn-outline" onclick="clearTeamsOnly()" style="flex: 1 1 45%;">Clear Current Teams</button>
+            <button class="btn-danger" onclick="clearSession()" style="flex: 1 1 45%;">End Entire Session</button>
+        </div>
+        
+        <div style="margin-top: 25px; padding-top: 15px; border-top: 2px solid #e2e8f0;">
+            <h3 style="margin-top: 0; font-size: 16px; color: #475569;">Quick Remove Groups:</h3>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button class="btn-outline" onclick="removeGroup('Adult')" style="flex: 1; border-color: #ef4444; color: #ef4444; font-size: 14px;">Remove Adults</button>
+                <button class="btn-outline" onclick="removeGroup('6-12th')" style="flex: 1; border-color: #ef4444; color: #ef4444; font-size: 14px;">Remove 6-12th</button>
+                <button class="btn-outline" onclick="removeGroup('K-5th')" style="flex: 1; border-color: #ef4444; color: #ef4444; font-size: 14px;">Remove K-5th</button>
+            </div>
+        </div>
+
+        <div id="admin-teams-section" class="hidden" style="margin-top: 25px; padding-top: 15px; border-top: 2px solid #e2e8f0;">
+            <h3 style="margin-top: 0; font-size: 16px; color: #475569;">3. Manual Trade (Admin Override):</h3>
+            <p style="font-size: 14px; color: #64748b; margin-top: 0; margin-bottom: 15px;">Click 'Swap' on two different players to instantly trade them between their teams.</p>
+            <div id="admin-teams-output" class="teams-container" style="gap: 10px;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ==========================================
+    // PASTE YOUR DEPLOYED GOOGLE SCRIPT URL BELOW
+    // ==========================================
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzRXWlQh8YDCOEAZE-YZGTXUnVZsa1YjDgILW0c0Ix8HWeTioc922WQx6X9y1NYYtzo/exec"; 
+    
+    let globalDb = [];
+    let currentRoster = [];
+    let currentTeamData = []; 
+    let hasSignedInLocally = false;
+    let checkInQueue = []; 
+
+    let tournamentSchedule = [];
+    let activeRoundIndex = 0;
+    let globalTeamLeagues = {}; 
+    let pendingSwapPlayer = null; 
+
+    window.onload = () => fetchData();
+
+    function toggleProjector() {
+        document.body.classList.toggle('projector-active');
+    }
+
+    async function fetchData() {
+        showLoading(true);
+        try {
+            let res = await fetch(SCRIPT_URL + "?action=getData");
+            let data = await res.json();
+            
+            globalDb = data.db;
+            currentRoster = data.roster;
+            currentTeamData = data.teams;
+            
+            const dropdown = document.getElementById('playerDropdown');
+            dropdown.innerHTML = '<option value="">-- Select Your Name --</option><option value="NEW_PLAYER">+ I am a new player</option>';
+            
+            globalDb.sort((a, b) => a.name.localeCompare(b.name)).forEach(player => {
+                let option = document.createElement('option');
+                option.value = player.name;
+                option.text = player.name;
+                dropdown.appendChild(option);
+            });
+
+            updateAdminUI();
+            updateWaitingUI();
+
+            if (hasSignedInLocally) {
+                document.getElementById('signin-card').classList.add('hidden');
+                document.getElementById('waiting-card').classList.remove('hidden');
+            } else {
+                document.getElementById('signin-card').classList.remove('hidden');
+                document.getElementById('waiting-card').classList.add('hidden');
+            }
+
+            if(currentTeamData.length > 0) {
+                displayTeams(currentTeamData, 'player-teams-output');
+                renderAdminTeams(); 
+                
+                document.getElementById('waiting-card').classList.add('hidden');
+                
+                let savedSchedule = localStorage.getItem('volleyball_schedule');
+                if (savedSchedule) {
+                    tournamentSchedule = JSON.parse(savedSchedule);
+                    document.getElementById('bracket-output').classList.remove('hidden');
+                    renderBracketRound();
+                } else {
+                    buildSchedule(currentTeamData);
+                }
+            } else {
+                document.getElementById('player-teams-output').classList.add('hidden');
+                document.getElementById('bracket-output').classList.add('hidden');
+                document.getElementById('top-status-bar').classList.add('hidden');
+                document.getElementById('admin-teams-section').classList.add('hidden');
+            }
+        } catch(e) { console.error("Error fetching data", e); }
+        showLoading(false);
+    }
+
+    // --- UPGRADED SCHEDULE LOGIC WITH DYNAMIC SWISS BRACKET ---
+    function buildSchedule(teamData) {
+        const groupedTeams = {};
+        teamData.forEach(row => {
+            if(!groupedTeams[row.team]) groupedTeams[row.team] = [];
+            groupedTeams[row.team].push(row);
+        });
+
+        let isMixed = false;
+        globalTeamLeagues = {};
+        for (let tNum in groupedTeams) {
+            let team = groupedTeams[tNum];
+            let firstGrade = team[0].grade;
+            let allSame = team.every(p => p.grade === firstGrade);
+            if (allSame) {
+                globalTeamLeagues[tNum] = firstGrade;
+            } else {
+                globalTeamLeagues[tNum] = 'Mixed';
+                isMixed = true;
+            }
+        }
+
+        let leagues = {};
+        if (isMixed) {
+             leagues['Mixed'] = Object.keys(groupedTeams).map(Number);
+        } else {
+             for (let tNum in globalTeamLeagues) {
+                 let lg = globalTeamLeagues[tNum];
+                 if (!leagues[lg]) leagues[lg] = [];
+                 leagues[lg].push(Number(tNum));
+             }
+        }
+
+        let leagueRounds = {};
+        
+        for (let lg in leagues) {
+            leagueRounds[lg] = [];
+            let teams = leagues[lg];
+            if (teams.length < 2) continue; 
+
+            // THE 4-TEAM DYNAMIC BRACKET LOGIC
+            if (lg === '6-12th' && teams.length === 4) {
+                let t1 = teams[0], t2 = teams[1], t3 = teams[2], t4 = teams[3];
+                // Round 1
+                leagueRounds[lg].push([ [t1, t2, [t1, t2]], [t3, t4, [t3, t4]] ]);
+                // Round 2
+                leagueRounds[lg].push([ 
+                    [`W(${t1}v${t2})`, `W(${t3}v${t4})`, [t1, t2, t3, t4]], 
+                    [`L(${t1}v${t2})`, `L(${t3}v${t4})`, [t1, t2, t3, t4]] 
+                ]);
+                // Round 3
+                leagueRounds[lg].push([ 
+                    [`Undefeated (2-0)`, `(1-1) Unplayed`, [t1, t2, t3, t4]], 
+                    [`Winless (0-2)`, `(1-1) Unplayed`, [t1, t2, t3, t4]] 
+                ]);
+                
+                // Tell the system these placeholders belong to the 6-12th division
+                globalTeamLeagues[`W(${t1}v${t2})`] = '6-12th'; globalTeamLeagues[`W(${t3}v${t4})`] = '6-12th';
+                globalTeamLeagues[`L(${t1}v${t2})`] = '6-12th'; globalTeamLeagues[`L(${t3}v${t4})`] = '6-12th';
+                globalTeamLeagues[`Undefeated (2-0)`] = '6-12th'; globalTeamLeagues[`(1-1) Unplayed`] = '6-12th';
+                globalTeamLeagues[`Winless (0-2)`] = '6-12th';
+            } else {
+                // STANDARD ROUND ROBIN FALLBACK
+                let rTeams = [...teams];
+                if (rTeams.length % 2 !== 0) rTeams.push(null); 
+                let numTeams = rTeams.length;
+                
+                for (let r = 0; r < numTeams - 1; r++) {
+                    let currentRound = [];
+                    for (let i = 0; i < numTeams / 2; i++) {
+                        let t1 = rTeams[i];
+                        let t2 = rTeams[numTeams - 1 - i];
+                        if (t1 !== null && t2 !== null) currentRound.push([t1, t2, [t1, t2]]);
+                    }
+                    leagueRounds[lg].push(currentRound);
+                    rTeams.splice(1, 0, rTeams.pop()); 
+                }
+            }
+        }
+
+        // Flatten all generated rounds into a chronological master list
+        let allMatches = [];
+        let maxRounds = 0;
+        for(let lg in leagueRounds) {
+            if (leagueRounds[lg].length > maxRounds) maxRounds = leagueRounds[lg].length;
+        }
+        for (let r = 0; r < maxRounds; r++) {
+            for (let lg in leagueRounds) {
+                if (leagueRounds[lg][r]) allMatches.push(...leagueRounds[lg][r]);
+            }
+        }
+
+        tournamentSchedule = [];
+        
+        if (isMixed) {
+            let remainingMatches = [...allMatches];
+            while(remainingMatches.length > 0) {
+                let roundMatches = [];
+                let playingTeams = new Set();
+                
+                for(let i=0; i<remainingMatches.length; i++) {
+                    let match = remainingMatches[i];
+                    let baseTeams = match[2];
+                    let canPlay = true;
+                    baseTeams.forEach(t => { if(playingTeams.has(t)) canPlay = false; });
+                    
+                    if(canPlay) {
+                        roundMatches.push({ match: match, courtName: `Court ${roundMatches.length + 1}`, scores: [0,0] });
+                        baseTeams.forEach(t => playingTeams.add(t));
+                        remainingMatches.splice(i, 1);
+                        i--;
+                    }
+                    if(roundMatches.length === 2) break; 
+                }
+                
+                let sittingOut = [];
+                for(let tNum in groupedTeams) {
+                    if(!playingTeams.has(Number(tNum))) sittingOut.push(`Team ${tNum}`);
+                }
+                tournamentSchedule.push({matches: roundMatches, sittingOut: sittingOut});
+            }
+        } else {
+            let remainingAdult = [...allMatches.filter(m => globalTeamLeagues[m[0]] === 'Adult')];
+            let remainingTeen = [...allMatches.filter(m => globalTeamLeagues[m[0]] === '6-12th')];
+            let remainingKids = [...allMatches.filter(m => globalTeamLeagues[m[0]] === 'K-5th')];
+
+            while(remainingAdult.length > 0 || remainingTeen.length > 0 || remainingKids.length > 0) {
+                let playingTeams = new Set();
+                let roundMatches = [];
+                
+                let c1Match = null;
+                let c2Match = null;
+
+                for(let i=0; i<remainingAdult.length; i++) {
+                    let match = remainingAdult[i];
+                    let baseTeams = match[2];
+                    let canPlay = true;
+                    baseTeams.forEach(t => { if(playingTeams.has(t)) canPlay = false; });
+                    if(canPlay) {
+                        c1Match = match;
+                        baseTeams.forEach(t => playingTeams.add(t));
+                        remainingAdult.splice(i, 1);
+                        break;
+                    }
+                }
+                if (!c1Match) { 
+                    for(let i=0; i<remainingKids.length; i++) {
+                        let match = remainingKids[i];
+                        let baseTeams = match[2];
+                        let canPlay = true;
+                        baseTeams.forEach(t => { if(playingTeams.has(t)) canPlay = false; });
+                        if(canPlay) {
+                            c1Match = match;
+                            baseTeams.forEach(t => playingTeams.add(t));
+                            remainingKids.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+
+                for(let i=0; i<remainingTeen.length; i++) {
+                    let match = remainingTeen[i];
+                    let baseTeams = match[2];
+                    let canPlay = true;
+                    baseTeams.forEach(t => { if(playingTeams.has(t)) canPlay = false; });
+                    if(canPlay) {
+                        c2Match = match;
+                        baseTeams.forEach(t => playingTeams.add(t));
+                        remainingTeen.splice(i, 1);
+                        break;
+                    }
+                }
+                if (!c2Match) { 
+                    for(let i=0; i<remainingKids.length; i++) {
+                        let match = remainingKids[i];
+                        let baseTeams = match[2];
+                        let canPlay = true;
+                        baseTeams.forEach(t => { if(playingTeams.has(t)) canPlay = false; });
+                        if(canPlay) {
+                            c2Match = match;
+                            baseTeams.forEach(t => playingTeams.add(t));
+                            remainingKids.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+
+                if (c1Match) roundMatches.push({ match: c1Match, courtName: `Court 1 (${globalTeamLeagues[c1Match[0]]})`, scores: [0,0] });
+                if (c2Match) roundMatches.push({ match: c2Match, courtName: `Court 2 (${globalTeamLeagues[c2Match[0]]})`, scores: [0,0] });
+
+                if (roundMatches.length === 0) break; 
+
+                let sittingOut = [];
+                for(let tNum in groupedTeams) {
+                    if(!playingTeams.has(Number(tNum))) sittingOut.push(`Team ${tNum} (${globalTeamLeagues[tNum]})`);
+                }
+                tournamentSchedule.push({matches: roundMatches, sittingOut: sittingOut});
+            }
+        }
+
+        if(tournamentSchedule.length > 0) {
+            localStorage.setItem('volleyball_schedule', JSON.stringify(tournamentSchedule));
+            document.getElementById('bracket-output').classList.remove('hidden');
+            activeRoundIndex = 0; 
+            renderBracketRound();
+        } else {
+            document.getElementById('bracket-output').classList.add('hidden');
+        }
+    }
+
+    function renderBracketRound() {
+        if(tournamentSchedule.length === 0) return;
+        
+        let currentRound = tournamentSchedule[activeRoundIndex];
+        document.getElementById('round-title').innerText = `Round ${activeRoundIndex + 1} of ${tournamentSchedule.length}`;
+        
+        let html = '';
+        currentRound.matches.forEach((item, index) => {
+            let match = item.match;
+            let courtLabel = item.courtName;
+            if(!item.scores) item.scores = [0,0]; 
+            
+            // Format dynamic strings smoothly so they don't say "Team W(1v2)"
+            let name1 = isNaN(match[0]) ? match[0] : `Team ${match[0]}`;
+            let name2 = isNaN(match[1]) ? match[1] : `Team ${match[1]}`;
+            
+            let label1 = globalTeamLeagues[match[0]] === 'Mixed' ? '' : `<span class="league-label">${globalTeamLeagues[match[0]]}</span>`;
+            let label2 = globalTeamLeagues[match[1]] === 'Mixed' ? '' : `<span class="league-label">${globalTeamLeagues[match[1]]}</span>`;
+
+            html += `
+            <div>
+                <span class="court-label">${courtLabel}</span>
+                <div class="matchup">
+                    <div class="matchup-team">${name1} ${label1}</div>
+                    
+                    <div class="score-box">
+                        <button class="score-btn hide-on-projector" onclick="changeScore(${index}, 0, -1)">-</button>
+                        <div class="score-display">${item.scores[0]}</div>
+                        <button class="score-btn hide-on-projector" onclick="changeScore(${index}, 0, 1)">+</button>
+                    </div>
+                    
+                    <div class="matchup-vs">VS</div>
+                    
+                    <div class="score-box">
+                        <button class="score-btn hide-on-projector" onclick="changeScore(${index}, 1, -1)">-</button>
+                        <div class="score-display">${item.scores[1]}</div>
+                        <button class="score-btn hide-on-projector" onclick="changeScore(${index}, 1, 1)">+</button>
+                    </div>
+                    
+                    <div class="matchup-team">${name2} ${label2}</div>
+                </div>
+            </div>`;
+        });
+
+        if(currentRound.sittingOut.length > 0) {
+            html += `<div class="sitting-out">🛑 Sitting Out / Byes: <br> ${currentRound.sittingOut.join(', ')}</div>`;
+        }
+
+        document.getElementById('bracket-matches').innerHTML = html;
+    }
+
+    function changeScore(matchIndex, teamIndex, delta) {
+        let matchData = tournamentSchedule[activeRoundIndex].matches[matchIndex];
+        matchData.scores[teamIndex] += delta;
+        if(matchData.scores[teamIndex] < 0) matchData.scores[teamIndex] = 0; 
+        
+        localStorage.setItem('volleyball_schedule', JSON.stringify(tournamentSchedule));
+        renderBracketRound();
+    }
+
+    function changeRound(direction) {
+        activeRoundIndex += direction;
+        if (activeRoundIndex < 0) activeRoundIndex = tournamentSchedule.length - 1;
+        if (activeRoundIndex >= tournamentSchedule.length) activeRoundIndex = 0;
+        renderBracketRound();
+    }
+
+    function handlePlayerSelection() {
+        const dropdown = document.getElementById('playerDropdown');
+        const nameInput = document.getElementById('playerName');
+        const gradeSelect = document.getElementById('playerGrade');
+
+        if (dropdown.value === 'NEW_PLAYER') {
+            nameInput.classList.remove('hidden');
+            nameInput.value = '';
+            gradeSelect.value = 'K-5th';
+        } else if (dropdown.value !== '') {
+            nameInput.classList.add('hidden');
+            nameInput.value = dropdown.value;
+            const found = globalDb.find(p => p.name === dropdown.value);
+            if(found) gradeSelect.value = found.grade;
+        } else {
+            nameInput.classList.add('hidden');
+            nameInput.value = '';
+        }
+    }
+
+    function addToQueue() {
+        const name = document.getElementById('playerName').value.trim();
+        const grade = document.getElementById('playerGrade').value;
+        if(!name) return alert("Please select or enter a name first!");
+        if(checkInQueue.find(p => p.name.toLowerCase() === name.toLowerCase())) return alert(`${name} is already in your check-in group!`);
+
+        checkInQueue.push({name: name, grade: grade});
+        
+        document.getElementById('playerDropdown').value = '';
+        document.getElementById('playerName').value = '';
+        document.getElementById('playerName').classList.add('hidden');
+        document.getElementById('playerGrade').value = 'K-5th';
+        renderQueue();
+    }
+
+    function removeFromQueue(index) {
+        checkInQueue.splice(index, 1);
+        renderQueue();
+    }
+
+    function renderQueue() {
+        const queueBox = document.getElementById('queue-box');
+        const queueList = document.getElementById('queue-list');
+        const submitBtn = document.getElementById('submit-btn');
+
+        if (checkInQueue.length > 0) {
+            queueBox.classList.remove('hidden');
+            submitBtn.innerText = `Sign In ${checkInQueue.length} Players`;
+            queueList.innerHTML = '';
+            checkInQueue.forEach((p, i) => {
+                queueList.innerHTML += `
+                <li>
+                    <span>${p.name} <span class="badge">${p.grade}</span></span>
+                    <span class="btn-remove" onclick="removeFromQueue(${i})">X</span>
+                </li>`;
+            });
+        } else {
+            queueBox.classList.add('hidden');
+            submitBtn.innerText = "Sign In";
+        }
+    }
+
+    async function postData(payload) {
+        showLoading(true);
+        try {
+            let res = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(payload)
+            });
+            let data = await res.json();
+            showLoading(false);
+            return data;
+        } catch(e) { 
+            console.error("Error posting data", e); 
+            showLoading(false);
+            return null;
+        }
+    }
+
+    async function submitQueue() {
+        const currentName = document.getElementById('playerName').value.trim();
+        if(currentName) addToQueue();
+        if(checkInQueue.length === 0) return alert("Please select a player to sign in!");
+
+        let response = await postData({ action: 'signInMultiple', players: checkInQueue });
+        
+        hasSignedInLocally = true;
+        checkInQueue = []; 
+        renderQueue(); 
+        
+        let message = "Your group is signed in! Waiting for the admin to generate teams...";
+        if (response && response.results) {
+            let lateAssignments = response.results.filter(r => r.assignedTeam !== null);
+            if (lateAssignments.length > 0) {
+                message = `Your group is signed in! Late arrivals have been auto-assigned to teams. Scroll down to see.`;
+            }
+        }
+        document.getElementById('status-message').innerText = message;
+        
+        document.getElementById('signin-card').classList.add('hidden');
+        document.getElementById('waiting-card').classList.remove('hidden');
+        fetchData(); 
+    }
+
+    function resetSignIn() {
+        hasSignedInLocally = false;
+        fetchData();
+    }
+
+    function showAdminLogin() {
+        const pin = prompt("Enter Admin PIN:");
+        if(pin === "1234") {
+            document.getElementById('player-view').classList.add('hidden');
+            document.getElementById('admin-view').classList.remove('hidden');
+            fetchData();
+        } else { alert("Incorrect PIN"); }
+    }
+
+    function exitAdmin() {
+        document.getElementById('admin-view').classList.add('hidden');
+        document.getElementById('player-view').classList.remove('hidden');
+    }
+
+    function updateAdminUI() {
+        document.getElementById('admin-count').innerText = currentRoster.length;
+        const ul = document.getElementById('admin-roster');
+        ul.innerHTML = '';
+        currentRoster.forEach(p => {
+            ul.innerHTML += `
+            <li style="display:flex; justify-content:space-between; align-items:center; padding:8px; background:#f1f5f9; margin-bottom:5px; border-radius:4px;">
+                <span>${p.name} <span class="badge">${p.grade}</span></span>
+                <button class="btn-danger" style="padding:4px 10px; width:auto; margin-bottom:0;" onclick="removePlayer('${p.name}')">X</button>
+            </li>`;
+        });
+    }
+
+    function updateWaitingUI() {
+        document.getElementById('waiting-count').innerText = currentRoster.length;
+        const ul = document.getElementById('waiting-roster');
+        ul.innerHTML = '';
+        const sortedRoster = [...currentRoster].sort((a, b) => a.name.localeCompare(b.name));
+        sortedRoster.forEach(p => {
+            ul.innerHTML += `
+            <li class="waiting-item">
+                <span>${p.name}</span> <span class="badge">${p.grade}</span>
+            </li>`;
+        });
+    }
+
+    function renderAdminTeams() {
+        const output = document.getElementById('admin-teams-output');
+        const section = document.getElementById('admin-teams-section');
+
+        if (!currentTeamData || currentTeamData.length === 0) {
+            section.classList.add('hidden');
+            return;
+        }
+
+        section.classList.remove('hidden');
+        output.innerHTML = '';
+
+        const groupedTeams = {};
+        currentTeamData.forEach(row => {
+            if(!groupedTeams[row.team]) groupedTeams[row.team] = [];
+            groupedTeams[row.team].push(row);
+        });
+
+        for(let tNum in groupedTeams) {
+            let teamDiv = document.createElement('div');
+            teamDiv.className = 'team-box';
+            teamDiv.style.borderColor = '#94a3b8'; 
+            teamDiv.style.minWidth = '180px';
+            
+            let html = `<h3 style="color:#475569; border-color:#cbd5e1;">Team ${tNum}</h3><ul style="padding-left:0; list-style:none;">`;
+
+            groupedTeams[tNum].forEach(p => {
+                let isSelected = pendingSwapPlayer === p.name;
+                let btnClass = isSelected ? 'swap-active' : '';
+                let btnText = isSelected ? 'Cancel' : 'Swap';
+
+                html += `
+                <li style="display:flex; justify-content:space-between; align-items:center; margin-bottom:5px; padding-bottom:5px; border-bottom:1px solid #f1f5f9;">
+                    <span style="font-size: 14px;">${p.name} <span class="badge">${p.grade}</span></span>
+                    <button class="swap-btn ${btnClass}" onclick="handleSwapClick('${p.name}')">${btnText}</button>
+                </li>`;
+            });
+            teamDiv.innerHTML = html + `</ul>`;
+            output.appendChild(teamDiv);
+        }
+    }
+
+    function handleSwapClick(name) {
+        if (!pendingSwapPlayer) {
+            pendingSwapPlayer = name;
+            renderAdminTeams(); 
+        } else if (pendingSwapPlayer === name) {
+            pendingSwapPlayer = null; 
+            renderAdminTeams();
+        } else {
+            let p1 = pendingSwapPlayer;
+            let p2 = name;
+            pendingSwapPlayer = null; 
+            
+            if(confirm(`Are you sure you want to trade ${p1} and ${p2}?`)) {
+                executeTrade(p1, p2);
+            } else {
+                renderAdminTeams(); 
+            }
+        }
+    }
+
+    async function executeTrade(p1, p2) {
+        await postData({ action: 'swapPlayers', p1: p1, p2: p2 });
+        alert(`Successfully traded ${p1} and ${p2}!`);
+        fetchData(); 
+    }
+
+    async function removePlayer(name) {
+        if(confirm(`Remove ${name} from today's session?`)) {
+            await postData({ action: 'removePlayer', name: name });
+            fetchData(); 
+        }
+    }
+
+    async function removeGroup(grade) {
+        if(confirm(`Are you sure you want to remove ALL ${grade} players from today's active roster?`)) {
+            await postData({ action: 'removeGroup', grade: grade });
+            fetchData();
+        }
+    }
+
+    async function generateAndSaveTeams(mode = 'mixed') {
+        showLoading(true);
+        try {
+            let res = await fetch(SCRIPT_URL + "?action=getData");
+            let data = await res.json();
+            currentRoster = data.roster; 
+        } catch(e) { console.error("Sync error", e); }
+
+        if(currentRoster.length === 0) {
+            showLoading(false);
+            return alert("No players signed in!");
+        }
+        
+        localStorage.removeItem('volleyball_schedule');
+
+        const groups = { 'Adult': [], '6-12th': [], 'K-5th': [] };
+        currentRoster.forEach(p => {
+            let grade = p.grade ? p.grade.trim() : 'Adult';
+            if (groups[grade]) groups[grade].push(p);
+            else groups['Adult'].push(p); 
+        });
+
+        let teams = [];
+        const shuffle = (arr) => arr.sort(() => Math.random() - 0.5);
+
+        if (mode === 'mixed') {
+            let numTeams = 1;
+            if (currentRoster.length <= 36) {
+                numTeams = Math.max(1, Math.ceil(currentRoster.length / 6));
+            } else {
+                numTeams = Math.ceil(currentRoster.length / 7);
+            }
+            
+            teams = Array.from({ length: numTeams }, () => []);
+            let tIndex = 0;
+            
+            ['Adult', '6-12th', 'K-5th'].forEach(grade => {
+                shuffle(groups[grade]).forEach(player => {
+                    teams[tIndex].push(player);
+                    tIndex = (tIndex + 1) % numTeams;
+                });
+            });
+        } else {
+            ['Adult', '6-12th', 'K-5th'].forEach(grade => {
+                let groupPlayers = shuffle(groups[grade]);
+                if (groupPlayers.length > 0) {
+                    let numTeams = 1;
+                    if (groupPlayers.length <= 36) { 
+                        numTeams = Math.max(1, Math.ceil(groupPlayers.length / 6));
+                    } else {
+                        numTeams = Math.ceil(groupPlayers.length / 7);
+                    }
+                    
+                    let groupTeams = Array.from({ length: numTeams }, () => []);
+                    let tIndex = 0;
+                    groupPlayers.forEach(player => {
+                        groupTeams[tIndex].push(player);
+                        tIndex = (tIndex + 1) % numTeams;
+                    });
+                    teams.push(...groupTeams);
+                }
+            });
+        }
+
+        await postData({ action: 'saveTeams', teams: teams });
+        alert(mode === 'mixed' ? "Mixed Teams Published!" : "Age-Group Teams Published!");
+        fetchData();
+    }
+
+    async function clearTeamsOnly() {
+        if(confirm("Erase current matchups?")) {
+            localStorage.removeItem('volleyball_schedule');
+            await postData({ action: 'clearTeams' });
+            alert("Teams cleared!");
+            fetchData();
+        }
+    }
+
+    async function clearSession() {
+        if(confirm("Are you sure? This clears today's roster and teams.")) {
+            localStorage.removeItem('volleyball_schedule');
+            await postData({ action: 'clearSession' });
+            alert("Session Cleared.");
+            hasSignedInLocally = false;
+            fetchData();
+        }
+    }
+
+    function displayTeams(teamData, containerId) {
+        const output = document.getElementById(containerId);
+        output.classList.remove('hidden');
+        output.innerHTML = ''; 
+        
+        document.getElementById('top-status-bar').classList.remove('hidden');
+        document.getElementById('top-player-count').innerText = teamData.length;
+
+        const groupedTeams = {};
+        teamData.forEach(row => {
+            if(!groupedTeams[row.team]) groupedTeams[row.team] = [];
+            groupedTeams[row.team].push(row);
+        });
+
+        for(let tNum in groupedTeams) {
+            let teamDiv = document.createElement('div');
+            teamDiv.className = 'team-box';
+            
+            let firstGrade = groupedTeams[tNum][0].grade;
+            let allSame = groupedTeams[tNum].every(p => p.grade === firstGrade);
+            let teamTitle = allSame ? `Team ${tNum} <span style="font-size:14px; color:#64748b; font-weight:normal;">(${firstGrade})</span>` : `Team ${tNum}`;
+            
+            let html = `<h3>${teamTitle}</h3><ul style="padding-left:0; list-style:none;">`;
+            
+            const sortOrder = { 'Adult': 1, '6-12th': 2, 'K-5th': 3 };
+            groupedTeams[tNum].sort((a, b) => sortOrder[a.grade] - sortOrder[b.grade]);
+
+            groupedTeams[tNum].forEach(p => {
+                html += `<li style="margin-bottom:5px;">${p.name} <span class="badge">${p.grade}</span></li>`;
+            });
+            teamDiv.innerHTML = html + `</ul>`;
+            output.appendChild(teamDiv);
+        }
+    }
+
+    function showLoading(show) {
+        document.getElementById('loading').classList.toggle('hidden', !show);
+    }
+</script>
+
+</body>
+</html>
